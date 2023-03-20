@@ -36,6 +36,12 @@ POST http://localhost:3000/api/users/login
 Content-Type: application/json
 
 {
+  "email": "igoghin0@vkontakte.ru",
+  "password": "2ffFisWBX"
+}
+
+###
+{
   "email": "// EN USER EMAIL",
   "password": "// EN USER EMAIL"
 }
