@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Sweater",
+    "description": "A warm, knitted sweater",
+    "price": 359,
+    "lager": 48
+  },
+  {
+    "name": "Skirt",
+    "description": "Brown mocca skirt",
+    "price": 299,
+    "lager": 24
+  },
+  {
+    "name": "Blouse",
+    "description": "Kashmir linen blouse",
+    "price": 499,
+    "lager": 86
+  },
+  {
+    "name": "Shoes",
+    "description": "High heel shoes",
+    "price": 869,
+    "lager": 77
+  },
+  {
+    "name": "Gloves",
+    "description": "Warm, waterproof gloves",
+    "price": 399,
+    "lager": 32
+  }
+]
