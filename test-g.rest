@@ -13,7 +13,8 @@ POST http://localhost:3000/api/users/
 Content-Type: application/json
 
 {
-  "id": "// EN USER ID"
+//  "id": "// EN USER ID"
+  "id": "64183c6c7f21ab938f0ce9c4"
 }
 
 ###
