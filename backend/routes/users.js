@@ -85,6 +85,7 @@ router.post('/add', async (req, res) => {
 /* Login user */
 router.post('/login', async (req, res) => {
   const userInfo = req.body;
+  console.log(userInfo);
   const encryptedPassword = CryptoJs.AES.encrypt(
     userInfo.password,
     process.env.SALT_KEY
@@ -96,7 +97,7 @@ router.post('/login', async (req, res) => {
       process.env.SALT_KEY
     ).toString(CryptoJs.enc.Utf8);
     if (decryptedPassword === userInfo.password) {
-      res.status(200).json(new Response(true, 'Credentials correct'));
+      res.status(200).json(new Response(true, 'Credentials correct', foundUser));
     } else {
       // If password is incorrect
       res.status(401).json(new Response(false, 'Wrong credentials'));
