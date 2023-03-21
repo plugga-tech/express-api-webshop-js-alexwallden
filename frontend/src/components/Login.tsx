@@ -1,14 +1,9 @@
 import React, { useContext, useState } from 'react';
-import { environment } from '../../environment';
 import ServerResponse from '../models/ServerResponse';
 import axios, { AxiosResponse } from 'axios';
 import { Link } from 'react-router-dom';
 import UserContext from '../context/UserContext';
 import User from '../models/User';
-
-interface ILoginProps {
-  setLogin: (toggle: boolean) => void;
-}
 
 const Login = () => {
   const { setUser } = useContext(UserContext);
@@ -18,12 +13,12 @@ const Login = () => {
   const handleLogin = async (e: React.MouseEvent) => {
     e.preventDefault();
     try {
-      const { data }: AxiosResponse<ServerResponse> = await axios.post(`${environment.API_URL}/users/login`, { email, password });
+      const { data }: AxiosResponse<ServerResponse> = await axios.post(`${import.meta.env.VITE_API_URL}/users/login`, { email, password });
       console.log(data);
       if (data.success) {
         console.log(data);
         const user = new User(data.body?._id, data.body.name, data.body.email, data.success);
-        if (setUser) setUser(user)
+        setUser && setUser(user)
         setEmail('');
         setPassword('');
       } else {
@@ -43,7 +38,7 @@ const Login = () => {
           <input
             type="text"
             name="email"
-            placeholder="email"
+            placeholder="Email"
             value={email}
             onChange={(e) => {
               setEmail(e.target.value);
@@ -55,7 +50,7 @@ const Login = () => {
           <input
             type="password"
             name="password"
-            placeholder="pasword"
+            placeholder="Password"
             value={password}
             onChange={(e) => {
               setPassword(e.target.value);
@@ -65,7 +60,7 @@ const Login = () => {
         </label>
         <button onClick={(e) => handleLogin(e)}>Log in</button>
       </form>
-      {error ? <p>{error}</p> : null}
+      {error && <p>{error}</p>}
       <div>
         <h3>New user?</h3>
         <Link to="/signup">

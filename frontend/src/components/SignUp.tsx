@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { environment } from '../../environment';
 import axios, { AxiosResponse } from 'axios';
 import ServerResponse from '../models/ServerResponse';
 import { Link } from 'react-router-dom';
@@ -13,7 +12,7 @@ const SignUp = () => {
   const handleSignUp = async (e: React.MouseEvent) => {
     e.preventDefault();
     if (passwordOne === passwordTwo && passwordOne !== '') {
-      const { data }: AxiosResponse<ServerResponse> = await axios.post<ServerResponse>(`${environment.API_URL}/users/add`, {
+      const { data }: AxiosResponse<ServerResponse> = await axios.post<ServerResponse>(`${import.meta.env.VITE_API_URL}/users/add`, {
         name,
         email,
         password: passwordOne,

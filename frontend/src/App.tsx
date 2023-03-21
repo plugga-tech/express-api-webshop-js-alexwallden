@@ -6,19 +6,22 @@ import SignUp from './components/SignUp';
 import Products from './components/Products';
 import { Route, Routes } from 'react-router';
 import User from './models/User';
+import Header from './components/Header';
 
 function App() {
   const [user, setUser] = useState<User | null>(null);
+  // const [user, setUser] = useState<User | null>(new User('id', 'alex', 'email', true));
 
   useEffect(() => {
-    console.log(user);
+
   }, []);
 
   return (
     <div className="App">
       <UserContext.Provider value={{ user, setUser }}>
+        <Header />
         <Routes>
-          <Route path="/" element={!user ? <Login /> : <Products />} />
+          <Route path="/" element={!user || !user.loggedIn ? <Login /> : <Products />} />
           <Route path="signup" element={<SignUp />} />
         </Routes>
       </UserContext.Provider>
