@@ -76,6 +76,10 @@ typings/
 .env
 .env.test
 
+## own tests
+own-test-g.rest
+own-test-vg.rest
+
 # parcel-bundler cache (https://parceljs.org/)
 .cache
 

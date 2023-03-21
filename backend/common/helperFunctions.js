@@ -21,4 +21,15 @@ const addMockData = (res, filePath, Model, encryptPassword) => {
   res.status(200).json('Mock data added!');
 };
 
-module.exports = { addMockData };
+const checkForBlankFields = (obj) => {
+  for (const key in obj) {
+    if (Object.hasOwnProperty.call(obj, key)) {
+      if (obj[key] === '') {
+        return false;
+      }
+    }
+  }
+  return true;
+};
+
+module.exports = { addMockData, checkForBlankFields };
