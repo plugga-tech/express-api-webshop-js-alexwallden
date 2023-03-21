@@ -4,6 +4,7 @@ var router = express.Router();
 require('dotenv').config();
 const CryptoJs = require('crypto-js');
 const UserModel = require('../models/UserModel');
+const { addMockData } = require('../helpers/addMockData');
 
 const checkForBlankFields = (obj) => {
   for (const key in obj) {
@@ -25,8 +26,8 @@ router.get('/', async function (req, res, next) {
 
   if (usersFromDb.length > 0) {
     const usersToSend = usersFromDb.map((user) => {
-      const { name, email } = user;
-      return { name, email };
+      const { name, email, _id } = user;
+      return { name, email, id: _id };
     });
 
     res.status(200).json(usersToSend);
@@ -42,7 +43,7 @@ router.post('/', async (req, res) => {
   if (foundUser) {
     res.status(200).json(foundUser);
   } else {
-    res.status(404).json('No user found in database');
+    res.status(404).json('No user with that ID found in database');
   }
 });
 
@@ -98,20 +99,21 @@ router.post('/login', async (req, res) => {
   }
 });
 
-// router.get('/add_mock', (req, res) => {
-//   fs.readFile('./MOCK_DATA.json', async (err, data) => {
-//     const parsedData = JSON.parse(data);
-//     for (let index = 0; index < parsedData.length; index++) {
-//       const user = parsedData[index];
-//       user.password = CryptoJs.AES.encrypt(
-//         user.password,
-//         process.env.SALT_KEY
-//       ).toString();
-//       const addedUser = await UserModel.create(user);
-//       console.log(addedUser);
-//     }
-//   });
-//   res.status(200).json('Mock data added!')
-// });
+router.get('/add_mock', (req, res) => {
+  addMockData(res, './USERS_MOCK_DATA.json', UserModel, true);
+  //   fs.readFile('./MOCK_DATA.json', async (err, data) => {
+  //     const parsedData = JSON.parse(data);
+  //     for (let index = 0; index < parsedData.length; index++) {
+  //       const user = parsedData[index];
+  //       user.password = CryptoJs.AES.encrypt(
+  //         user.password,
+  //         process.env.SALT_KEY
+  //       ).toString();
+  //       const addedUser = await UserModel.create(user);
+  //       console.log(addedUser);
+  //     }
+  //   });
+  //   res.status(200).json('Mock data added!')
+});
 
 module.exports = router;

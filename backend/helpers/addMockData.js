@@ -1,4 +1,6 @@
 const fs = require('fs')
+const CryptoJs = require('crypto-js');
+
 const addMockData = (res, filePath, Model, encryptPassword) => {
   fs.readFile(filePath, async (err, data) => {
     console.log('DATA:');

@@ -14,7 +14,7 @@ Content-Type: application/json
 
 {
 //  "id": "// EN USER ID"
-  "id": "64183c6c7f21ab938f0ce9c4"
+  "id": "6418c2e2a31b8fc18e9b0e78"
 }
 
 ###
@@ -24,8 +24,8 @@ POST http://localhost:3000/api/users/add
 Content-Type: application/json
 
 {
-  "name": "Test Testsson",
-  "email": "test@mail.com",
+  "name": "Testaren Testsson",
+  "email": "testaren@mail.com",
   "password": "test"
 }
 
@@ -72,7 +72,7 @@ Content-Type: application/json
   "name": "Socks",
   "description": "Well ventilated socks",
   "price": 33, 
-  "lager": 126,
+  "lager": 126
 }
 
 ###
