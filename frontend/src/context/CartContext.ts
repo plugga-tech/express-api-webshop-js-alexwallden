@@ -1,3 +1,13 @@
-import { createContext } from "react";
+import { Dispatch, SetStateAction, createContext } from "react";
+import Order from "../models/Order";
 
-const CartContext = createContext({cart: []})
+interface ICartContext {
+  order: Order | null;
+  setUser?: Dispatch<SetStateAction<string | null>>;
+  setOrder?: Dispatch<SetStateAction<Order | null>>;
+  setProducts?: Dispatch<SetStateAction<{productId: string, quantity: number}[] | null>>;
+}
+
+const CartContext = createContext<ICartContext>({order: null})
+
+export default CartContext
