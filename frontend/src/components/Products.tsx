@@ -9,7 +9,12 @@ import { Category } from '../models/Category';
 import { Product } from '../models/Product';
 import '../style/_products.scss';
 
-const Products = () => {
+interface IProductsProps {
+  createOrder: () => void;
+  toggleAddedMessage: () => void;
+}
+
+const Products = ({ createOrder, toggleAddedMessage }: IProductsProps) => {
   const { order, setOrder } = useContext(CartContext);
   const { user } = useContext(UserContext);
   const [products, setProducts] = useState<Product[] | null>(null);
@@ -19,7 +24,6 @@ const Products = () => {
   const fetchAllProducts = async () => {
     try {
       const { data }: AxiosResponse<ServerResponse> = await axios.get(`${import.meta.env.VITE_API_URL}/products`);
-      console.log(data);
       setProducts(data.body as Product[]);
     } catch (err: any) {
       console.log(err.response.data);
@@ -28,45 +32,30 @@ const Products = () => {
 
   const fetchCategories = async () => {
     const { data }: AxiosResponse<ServerResponse> = await axios.get(`${import.meta.env.VITE_API_URL}/categories`);
-    console.log(data.body);
     setCategories(data.body);
   };
 
   const fetchCategory = async (categoryId: string) => {
+    console.log(categoryId);
+
     const { data }: AxiosResponse<ServerResponse> = await axios.get(`${import.meta.env.VITE_API_URL}/products/category/${categoryId}`);
     console.log(data);
-    setProducts(data.body);
-  };
 
-  const createOrder = () => {
-    user && setOrder && setOrder({ user: user?.id, products: [] });
+    setProducts(data.body);
   };
 
   const addToOrder = (product: Product, quantity: number) => {
     const tempOrder = { ...(order as Order) };
     order?.products.push({ productId: product._id, quantity: quantity });
     setOrder && setOrder(tempOrder);
+    toggleAddedMessage()
   };
-
-  const placeOrder = async () => {
-    const response = await axios.post(`${import.meta.env.VITE_API_URL}/orders/add`, order);
-    console.log(response.data);
-  };
-
-  const emptyCart = ()=> {
-    createOrder()
-  }
 
   useEffect(() => {
     fetchAllProducts();
     fetchCategories();
     createOrder();
   }, []);
-
-  useEffect(() => {
-    console.log(order);
-    console.log(products);
-  }, [order, products]);
 
   return (
     <div className="products-component">
@@ -82,10 +71,6 @@ const Products = () => {
         {products?.map((product: Product, i) => (
           <ProductInfo key={i} product={product} selectedProduct={selectedProduct} addToOrder={addToOrder} setSelectedProduct={setSelectedProduct} />
         ))}
-      </div>
-      <div className="order-btns">
-        <button onClick={placeOrder}>Place order</button>
-        <button onClick={emptyCart}>Empty cart</button>
       </div>
     </div>
   );

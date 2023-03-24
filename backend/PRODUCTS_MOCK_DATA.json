@@ -3,30 +3,35 @@
     "name": "Sweater",
     "description": "A warm, knitted sweater",
     "price": 359,
-    "lager": 48
+    "lager": 48,
+    "category": "641db2356da775e10d13ec94"
   },
   {
     "name": "Skirt",
     "description": "Brown mocca skirt",
     "price": 299,
-    "lager": 24
+    "lager": 24,
+    "category": "641db6e06da775e10d13ecfb"
   },
   {
     "name": "Blouse",
     "description": "Kashmir linen blouse",
     "price": 499,
-    "lager": 86
+    "lager": 86,
+    "category": "641db6e06da775e10d13ecfb"
   },
   {
     "name": "Shoes",
     "description": "High heel shoes",
     "price": 869,
-    "lager": 77
+    "lager": 77,
+    "category": "641db6f86da775e10d13ecff"
   },
   {
     "name": "Gloves",
     "description": "Warm, waterproof gloves",
     "price": 399,
-    "lager": 32
+    "lager": 32,
+    "category": "641db6f86da775e10d13ecff"
   }
 ]

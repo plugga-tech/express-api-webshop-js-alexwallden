@@ -13,15 +13,14 @@ interface IProductInfoProps {
 const ProductInfo = ({ product, selectedProduct, addToOrder, setSelectedProduct }: IProductInfoProps) => {
   const [quantity, setQuantity] = useState(1);
   const decreaseQuantity = () => {
-    if (quantity > 0)
-    setQuantity((prev) => prev - 1);
+    if (quantity > 0) setQuantity((prev) => prev - 1);
   };
 
   const increaseQuantity = () => {
     setQuantity((prev) => prev + 1);
   };
   return (
-    <div className='product'>
+    <div className="product">
       {product !== selectedProduct ? (
         <ProductSummary
           product={product}
@@ -39,7 +38,15 @@ const ProductInfo = ({ product, selectedProduct, addToOrder, setSelectedProduct 
         <input type="text" value={quantity} onChange={(e) => setQuantity(Number(e.target.value))} />
         <button onClick={increaseQuantity}>+</button>
       </div>
-      <button className='add-to-cart-btn' onClick={() => addToOrder(product, quantity)}>Add to cart</button>
+      <button
+        className="add-to-cart-btn"
+        onClick={() => {
+          addToOrder(product, quantity);
+          setQuantity(1)
+        }}
+      >
+        Add to cart
+      </button>
     </div>
   );
 };

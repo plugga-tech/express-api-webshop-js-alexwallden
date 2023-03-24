@@ -1,0 +1,34 @@
+.login-component {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-container {
+  h2 {
+    text-align: center;
+  }
+}
+
+.login-form-inputs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.sign-up-btn {
+  background-color: rgb(108, 146, 217);
+  border: none;
+}
+
+.login-btn {
+  background-color: green;
+}
+
+.new-user-link-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

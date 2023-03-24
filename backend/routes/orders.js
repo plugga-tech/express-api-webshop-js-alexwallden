@@ -50,16 +50,19 @@ router.post('/user', async (req, res) => {
         const orderToPush = { id: order._id, products: [] };
         for (let index = 0; index < order.products.length; index++) {
           const product = order.products[index];
-          const {_id, name, description, price} = await ProductModel.findById(product.productId);
-          const productToPush = {
-            _id,
-            name,
-            description,
-            price,
-            quantity: product.quantity,
-          };
-          console.log(productToPush);
-          orderToPush.products.push(productToPush);
+          const productFromDb = await ProductModel.findById(product.productId);
+          if (productFromDb) {
+            const { _id, name, description, price } = productFromDb;
+            const productToPush = {
+              _id,
+              name,
+              description,
+              price,
+              quantity: product.quantity,
+            };
+            console.log(productToPush);
+            orderToPush.products.push(productToPush);
+          }
         }
         ordersWithProducts.push(orderToPush);
       }
@@ -68,7 +71,11 @@ router.post('/user', async (req, res) => {
       res
         .status(200)
         .json(
-          new Response(true, `All orders for user ${req.body.user}`, ordersWithProducts)
+          new Response(
+            true,
+            `All orders for user ${req.body.user}`,
+            ordersWithProducts
+          )
         );
     } else {
       // If wrong key

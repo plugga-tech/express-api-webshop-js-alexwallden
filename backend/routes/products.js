@@ -6,6 +6,10 @@ const { addMockData } = require('../common/helperFunctions');
 const Response = require('../models/ResponseClass');
 
 /* /api/products */
+// router.get('/add_mock', (req, res) => {
+//   addMockData(res, './PRODUCTS_MOCK_DATA.json', ProductModel);
+// });
+
 router.get('/:id?', async function (req, res, next) {
   console.log(req.params.id);
   if (req.params.id) {
@@ -93,8 +97,6 @@ router.get('/category/:id', async (req, res) => {
   }
 });
 
-// router.get('/add_mock', (req, res) => {
-//   addMockData(res, './PRODUCTS_MOCK_DATA.json', ProductModel);
-// });
+
 
 module.exports = router;

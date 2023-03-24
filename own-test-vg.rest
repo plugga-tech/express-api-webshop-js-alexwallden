@@ -35,7 +35,7 @@ POST http://localhost:3000/api/users/login
 Content-Type: application/json
 
 {
-  "email": "testis@mail.com",
+  "email": "test@mail.com",
   "password": "test"
 }
 
@@ -60,18 +60,18 @@ POST http://localhost:3000/api/products/add
 Content-Type: application/json
 
 {
-  "name": "Jeans",
-  "description": "High quality jeans",
-  "price": 1099, 
-  "lager": 14,
-  "category": "6419c4511878278e240f422d",
+  "name": "Running shorts",
+  "description": "Short shorts made for running",
+  "price": 278, 
+  "lager": 68,
+  "category": "641db2356da775e10d13ec94",
   "token": "1234key1234"
 }
 
 ###
 
 // HÄMTA ALLA PRODUKTER FÖR EN SPECIFIK KATEGORI
-GET http://localhost:3000/api/products/category/6419bd2e5884755b1ce5d489
+GET http://localhost:3000/api/products/category/641db2356da775e10d13ec94
 ###
 
 //
@@ -84,7 +84,7 @@ POST http://localhost:3000/api/categories/add
 Content-Type: application/json
 
 {
-  "name": "sports",
+  "name": "Outdoor",
   "token": "1234key1234"
 }
 
@@ -114,7 +114,7 @@ POST http://localhost:3000/api/orders/add
 Content-Type: application/json
 
 {
-  "user": "6418c2e2a31b8fc18e9b0e76",
+  "user": "641db0526da775e10d13ec8a",
       "products": [
     {
       "productId": "6419c48c1878278e240f4233",

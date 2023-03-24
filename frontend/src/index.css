@@ -4,6 +4,16 @@
   font-weight: 400;
 }
 
+body {
+  overflow-y: scroll;
+}
+
+#root, .App {
+  height: 100vh;
+  width: 100vw;
+}
+
+
 /* :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
