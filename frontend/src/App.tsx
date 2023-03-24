@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import './App.css';
+import './style/_app.scss'
 import UserContext from './context/UserContext';
 import Login from './components/Login';
 import SignUp from './components/SignUp';

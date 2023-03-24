@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Product } from '../models/Product';
 
 interface IProductSummaryProps {
   product: Product;
@@ -9,15 +10,6 @@ interface IProductSummaryProps {
 }
 
 const ProductSummary = ({ product, imgSrc, imgAlt, setSelectedProduct, addToOrder }: IProductSummaryProps) => {
-  const [quantity, setQuantity] = useState(1);
-
-  const decreaseQuantity = () => {
-    setQuantity((prev) => prev + 1);
-  };
-
-  const increaseQuantity = () => {
-    setQuantity((prev) => prev + 1);
-  };
 
   return (
     <div style={{ cursor: 'pointer' }}>
@@ -26,10 +18,6 @@ const ProductSummary = ({ product, imgSrc, imgAlt, setSelectedProduct, addToOrde
         <h2>{product.name}</h2>
         <p>{product.price} kr</p>
       </div>
-      <button onClick={decreaseQuantity}>-</button>
-      <input type="text" value={quantity} onChange={(e) => setQuantity(Number(e.target.value))} />
-      <button onClick={increaseQuantity}>+</button>
-      <button onClick={() => addToOrder(product, quantity)}>Add to cart</button>
     </div>
   );
 };

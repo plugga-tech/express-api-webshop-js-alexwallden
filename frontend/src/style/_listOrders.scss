@@ -1,0 +1,23 @@
+.list-orders-component {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  a {
+    position: relative;
+    top: 0;
+    left: 0;
+    margin-bottom: 20px;
+  }
+}
+
+.order {
+  width: 30vw;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid gray;
+}
+
+.order-product {
+  border-bottom: 1px solid gray;
+}

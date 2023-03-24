@@ -1,11 +1,13 @@
 import axios, { AxiosResponse } from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
 import ServerResponse from '../models/ServerResponse';
-import ProductModal from './ProductModal';
 import CartContext from '../context/CartContext';
 import UserContext from '../context/UserContext';
 import Order from '../models/Order';
-import ProductSummary from './ProductSummary';
+import ProductInfo from './ProductInfo';
+import { Category } from '../models/Category';
+import { Product } from '../models/Product';
+import '../style/_products.scss';
 
 const Products = () => {
   const { order, setOrder } = useContext(CartContext);
@@ -51,6 +53,10 @@ const Products = () => {
     console.log(response.data);
   };
 
+  const emptyCart = ()=> {
+    createOrder()
+  }
+
   useEffect(() => {
     fetchAllProducts();
     fetchCategories();
@@ -63,28 +69,24 @@ const Products = () => {
   }, [order, products]);
 
   return (
-    <div>
-      <button onClick={fetchAllProducts}>All categories</button>
-      {categories.map((category, i) => (
-        <button key={i} onClick={() => fetchCategory(category._id)}>
-          {category.name}
-        </button>
-      ))}
-      {products?.map((product: Product, i) =>
-        selectedProduct === product ? (
-          <ProductModal selectedProduct={product} setSelectedProduct={setSelectedProduct} addToOrder={addToOrder} key={i} />
-        ) : (
-          <ProductSummary
-            key={i}
-            product={product}
-            imgSrc="https://picsum.photos/100"
-            imgAlt="Random image"
-            setSelectedProduct={setSelectedProduct}
-            addToOrder={addToOrder}
-          />
-        )
-      )}
-      <button onClick={placeOrder}>Place order</button>
+    <div className="products-component">
+      <div className="category-btns">
+        <button onClick={fetchAllProducts}>All categories</button>
+        {categories.map((category, i) => (
+          <button key={i} onClick={() => fetchCategory(category._id)}>
+            {category.name}
+          </button>
+        ))}
+      </div>
+      <div className="products-container">
+        {products?.map((product: Product, i) => (
+          <ProductInfo key={i} product={product} selectedProduct={selectedProduct} addToOrder={addToOrder} setSelectedProduct={setSelectedProduct} />
+        ))}
+      </div>
+      <div className="order-btns">
+        <button onClick={placeOrder}>Place order</button>
+        <button onClick={emptyCart}>Empty cart</button>
+      </div>
     </div>
   );
 };
