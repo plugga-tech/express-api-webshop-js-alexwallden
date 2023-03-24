@@ -5,6 +5,7 @@ import ProductModal from './ProductModal';
 import CartContext from '../context/CartContext';
 import UserContext from '../context/UserContext';
 import Order from '../models/Order';
+import ProductSummary from './ProductSummary';
 
 const Products = () => {
   const { order, setOrder } = useContext(CartContext);
@@ -39,9 +40,9 @@ const Products = () => {
     user && setOrder && setOrder({ user: user?.id, products: [] });
   };
 
-  const addToOrder = (product: Product) => {
+  const addToOrder = (product: Product, quantity: number) => {
     const tempOrder = { ...(order as Order) };
-    order?.products.push({ productId: product._id, quantity: 1 });
+    order?.products.push({ productId: product._id, quantity: quantity });
     setOrder && setOrder(tempOrder);
   };
 
@@ -73,12 +74,14 @@ const Products = () => {
         selectedProduct === product ? (
           <ProductModal selectedProduct={product} setSelectedProduct={setSelectedProduct} addToOrder={addToOrder} key={i} />
         ) : (
-          <div key={i} onClick={() => setSelectedProduct(product)} style={{ cursor: 'pointer' }}>
-            <img src="https://picsum.photos/100" alt="Random image" />
-            <h2>{product.name}</h2>
-            <p>{product.price} kr</p>
-            <button onClick={() => addToOrder(product)}>Add to cart</button>
-          </div>
+          <ProductSummary
+            key={i}
+            product={product}
+            imgSrc="https://picsum.photos/100"
+            imgAlt="Random image"
+            setSelectedProduct={setSelectedProduct}
+            addToOrder={addToOrder}
+          />
         )
       )}
       <button onClick={placeOrder}>Place order</button>

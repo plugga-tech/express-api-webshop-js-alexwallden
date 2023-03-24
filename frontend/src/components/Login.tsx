@@ -1,11 +1,12 @@
 import React, { useContext, useState } from 'react';
 import ServerResponse from '../models/ServerResponse';
 import axios, { AxiosResponse } from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import UserContext from '../context/UserContext';
 import User from '../models/User';
 
 const Login = () => {
+  const navigate = useNavigate()
   const { setUser } = useContext(UserContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -21,6 +22,7 @@ const Login = () => {
         setUser && setUser(user)
         setEmail('');
         setPassword('');
+        navigate('/')
       } else {
         setError(data.message);
       }

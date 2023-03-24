@@ -2,7 +2,7 @@ var express = require('express');
 const OrderModel = require('../models/OrderModel');
 var router = express.Router();
 const Response = require('../models/ResponseClass');
-const { json } = require('stream/consumers');
+const ProductModel = require('../models/ProductModel');
 
 /* GET users listing. */
 
@@ -37,9 +37,39 @@ router.get('/all/:key?', async function (req, res, next) {
 router.post('/user', async (req, res) => {
   if (req.body.token) {
     if (req.body.token === process.env.API_KEY) {
-      const orders = await OrderModel.find({user: req.body.user})
-      console.log(orders);
-      res.status(200).json(new Response(true, `All orders for user ${req.body.user}`, orders))
+      const orders = await OrderModel.find({ user: req.body.user });
+      const separateOrders = [];
+      for (let index = 0; index < orders.length; index++) {
+        const order = orders[index];
+        separateOrders.push(order);
+      }
+      console.log(separateOrders);
+      const ordersWithProducts = [];
+      for (let index = 0; index < separateOrders.length; index++) {
+        const order = separateOrders[index];
+        const orderToPush = { id: order._id, products: [] };
+        for (let index = 0; index < order.products.length; index++) {
+          const product = order.products[index];
+          const {_id, name, description, price} = await ProductModel.findById(product.productId);
+          const productToPush = {
+            _id,
+            name,
+            description,
+            price,
+            quantity: product.quantity,
+          };
+          console.log(productToPush);
+          orderToPush.products.push(productToPush);
+        }
+        ordersWithProducts.push(orderToPush);
+      }
+      console.log(ordersWithProducts);
+
+      res
+        .status(200)
+        .json(
+          new Response(true, `All orders for user ${req.body.user}`, ordersWithProducts)
+        );
     } else {
       // If wrong key
       res.status(401).json(new Response(false, 'Wrong API key'));
