@@ -32,13 +32,13 @@ function App() {
 
     setTimeout(() => {
       setShowOrderPlacedMessage(false);
-    }, 1500);
+    }, 2500);
   }, [showOrderPlacedMessage]);
 
   useEffect(() => {
     setTimeout(() => {
       setShowAddedMessage(false);
-    }, 1500);
+    }, 2500);
   }, [showAddedMessage]);
 
   const createOrder = () => {

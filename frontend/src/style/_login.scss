@@ -1,3 +1,5 @@
+@import './variables';
+
 .login-component {
   height: 100vh;
   width: 100vw;
@@ -19,12 +21,12 @@
 }
 
 .sign-up-btn {
-  background-color: rgb(108, 146, 217);
+  background-color: $primary;
   border: none;
 }
 
 .login-btn {
-  background-color: green;
+  background-color: $primary-blue;
 }
 
 .new-user-link-container {

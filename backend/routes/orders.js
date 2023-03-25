@@ -3,15 +3,22 @@ const OrderModel = require('../models/OrderModel');
 var router = express.Router();
 const Response = require('../models/ResponseClass');
 const ProductModel = require('../models/ProductModel');
+const UserModel = require('../models/UserModel');
 
 /* GET users listing. */
 
 router.post('/add', async (req, res) => {
   const order = req.body;
   console.log(order);
-  const createdOrder = await OrderModel.create(order);
-  console.log(createdOrder);
-  res.json('Order skapad');
+  const foundUser = await UserModel.findById(order.user);
+  console.log(foundUser);
+  if (foundUser) {
+    const createdOrder = await OrderModel.create(order);
+    console.log(createdOrder);
+    res.status(201).json(new Response(true, 'Order created', createdOrder));
+  } else {
+    res.status(404).json(new Response(false, 'No matching user in database'))
+  }
 });
 
 router.get('/all/:key?', async function (req, res, next) {

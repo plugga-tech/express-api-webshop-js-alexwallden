@@ -51,7 +51,7 @@ GET http://localhost:3000/api/products
 ###
 
 // HÄMTA SPECIFIK PRODUKT
-GET http://localhost:3000/api/products/641886e1c14f35fa4f9813d6
+GET http://localhost:3000/api/products/641db97e5f8a1e995bb3a237
 
 ###
 
@@ -60,10 +60,10 @@ POST http://localhost:3000/api/products/add
 Content-Type: application/json
 
 {
-  "name": "Running shorts",
-  "description": "Short shorts made for running",
-  "price": 278, 
-  "lager": 68,
+  "name": "T-shirt",
+  "description": "T-shirt in easy drying material",
+  "price": 127, 
+  "lager": 34,
   "category": "641db2356da775e10d13ec94",
   "token": "1234key1234"
 }
@@ -84,7 +84,7 @@ POST http://localhost:3000/api/categories/add
 Content-Type: application/json
 
 {
-  "name": "Outdoor",
+  "name": "Casual",
   "token": "1234key1234"
 }
 
@@ -114,7 +114,7 @@ POST http://localhost:3000/api/orders/add
 Content-Type: application/json
 
 {
-  "user": "641db0526da775e10d13ec8a",
+  "user": "6418c2e2a31b8fc18e9b0e74",
       "products": [
     {
       "productId": "6419c48c1878278e240f4233",
@@ -134,7 +134,7 @@ POST http://localhost:3000/api/orders/user
 Content-Type: application/json
 
 {
-    "user": "// USER ID FÖR DEN SOM SKA VISA ORDERS"
+    "user": "6418c2e2a31b8fc18e9b0e74"
 }
 ###
 
@@ -143,7 +143,7 @@ POST http://localhost:3000/api/orders/user
 Content-Type: application/json
 
 {
-    "user": "6418c2e2a31b8fc18e9b0e76",
+    "user": "6418c2e2a31b8fc18e9b0e74",
     "token": "1234key1234"
 }
 ###

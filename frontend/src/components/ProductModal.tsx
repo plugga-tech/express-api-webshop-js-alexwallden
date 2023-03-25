@@ -17,11 +17,9 @@ const ProductModal = ({ selectedProduct, setSelectedProduct, addToOrder }: IProd
       <div className="product-info" onClick={() => setSelectedProduct(null)}>
         <img src="https://picsum.photos/400/200" alt="" />
         <h2>{name}</h2>
-        <p>{category}</p>
         <p>{description}</p>
         <p>{lager} in stock</p>
         <p>{price} kr</p>
-        <p>{_id}</p>
       </div>
       
     </div>

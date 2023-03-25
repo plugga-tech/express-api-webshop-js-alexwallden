@@ -1,12 +1,13 @@
 .list-orders-component {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 10px;
   a {
-    position: relative;
+    position: absolute;
     top: 0;
-    left: 0;
+    left: 10px;
     margin-bottom: 20px;
   }
 }
