@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import ServerResponse from '../models/ServerResponse';
 import axios, { AxiosResponse } from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
@@ -17,8 +17,9 @@ const Login = () => {
     try {
       const { data }: AxiosResponse<ServerResponse> = await axios.post(`${import.meta.env.VITE_API_URL}/users/login`, { email, password });
       if (data.success) {
-        const user = new User(data.body?._id, data.body.name, data.body.email, data.success);
-        setUser && setUser(user);
+        const userToSet = new User(data.body?._id, data.body.name, data.body.email, data.success);
+        setUser && setUser(userToSet);
+        localStorage.setItem('user', JSON.stringify(userToSet));
         setEmail('');
         setPassword('');
         navigate('/');

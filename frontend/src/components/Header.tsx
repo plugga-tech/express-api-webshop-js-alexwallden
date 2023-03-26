@@ -7,34 +7,48 @@ import '../style/_header.scss';
 interface IHeaderProps {
   placeOrder: () => void;
   emptyCart: () => void;
-  showPlacedMessage: ()=> void;
+  showPlacedMessage: () => void;
 }
 
 const Header = ({ placeOrder, emptyCart, showPlacedMessage }: IHeaderProps) => {
   const { order } = useContext(CartContext);
   const { user, setUser } = useContext(UserContext);
-  const [cartItemsCounter, setCartItemsCounter] = useState(0);
+  
 
-  const updateCartCount = ()=>{
+  const updateCartCount = () => {
     let count = 0;
-    if (order?.products){
+    if (order?.products) {
       for (let index = 0; index < order?.products.length; index++) {
         const product = order?.products[index];
-        count += product.quantity
+        count += product.quantity;
       }
-    } 
-    setCartItemsCounter(count)
-  }
+    }
+    // setCartItemsCounter(count)
+    return count;
+  };
 
-  useEffect(()=>{
+  const logOut = () => {
+    setUser && setUser(null);
+    localStorage.removeItem('user');
+  };
+
+  const [cartItemsCounter, setCartItemsCounter] = useState(updateCartCount());
+
+  useEffect(() => {
     console.log(order);
-    updateCartCount()
-  }, [order?.products.length])
-  
+    console.log(updateCartCount());
+    setCartItemsCounter(updateCartCount());
+  }, [order?.products.length]);
+
+  // useEffect(()=>{
+  //     updateCartCount()
+  //     console.log(order);
+  // }, [order])
 
   if (user && user.loggedIn) {
     return (
       <header>
+        <h3>Välkommen {user?.name.substring(0, user.name.indexOf(' '))}</h3>
         <Link to="/orders">
           <button>Your orders</button>
         </Link>
@@ -52,7 +66,7 @@ const Header = ({ placeOrder, emptyCart, showPlacedMessage }: IHeaderProps) => {
             <button onClick={emptyCart}>Empty cart</button>
           </div>
         )}
-        <button className="logout-btn" onClick={() => setUser && setUser(null)}>
+        <button className="logout-btn" onClick={logOut}>
           Log out
         </button>
       </header>

@@ -30,6 +30,17 @@ const Products = ({ createOrder, toggleAddedMessage }: IProductsProps) => {
     }
   };
 
+  const getCartDataFromLocalstorage = () => {
+    const localstorageCartData = localStorage.getItem('cart') || 'null';
+    const parsedCartData = JSON.parse(localstorageCartData);
+
+    if (parsedCartData && user && parsedCartData.user === user.id) {
+      setOrder && setOrder(parsedCartData);
+    } else if (!parsedCartData) {
+      createOrder();
+    }
+  };
+
   const fetchCategories = async () => {
     const { data }: AxiosResponse<ServerResponse> = await axios.get(`${import.meta.env.VITE_API_URL}/categories`);
     setCategories(data.body);
@@ -48,13 +59,15 @@ const Products = ({ createOrder, toggleAddedMessage }: IProductsProps) => {
     const tempOrder = { ...(order as Order) };
     order?.products.push({ productId: product._id, quantity: quantity });
     setOrder && setOrder(tempOrder);
-    toggleAddedMessage()
+    localStorage.setItem('cart', JSON.stringify(tempOrder));
+    toggleAddedMessage();
   };
 
   useEffect(() => {
     fetchAllProducts();
     fetchCategories();
     createOrder();
+    getCartDataFromLocalstorage();
   }, []);
 
   return (

@@ -12,9 +12,10 @@ import Order from './models/Order';
 import ListOrders from './components/ListOrders';
 import axios from 'axios';
 
+// TODO: Lägg funktionen som hämtar carten från local storage i Products-komponenten.
+
 function App() {
   const [user, setUser] = useState<User | null>(null);
-  // const [user, setUser] = useState<User | null>(new User('6419ec0f178f6bcc3f94824b', 'alex', '"alex@mail.com"', true));
   const [order, setOrder] = useState<Order | null>(null);
   const [showOrderPlacedMessage, setShowOrderPlacedMessage] = useState(false);
   const [showAddedMessage, setShowAddedMessage] = useState(false);
@@ -27,9 +28,29 @@ function App() {
     setShowAddedMessage(true);
   };
 
-  useEffect(() => {
-    console.log(showOrderPlacedMessage);
+  const createOrder = () => {
+    user && setOrder && setOrder({ user: user?.id, products: [] });
+  };
 
+  const placeOrder = async () => {
+    emptyCart();
+    const response = await axios.post(`${import.meta.env.VITE_API_URL}/orders/add`, order);
+    localStorage.removeItem('cart');
+  };
+
+  const emptyCart = () => {
+    createOrder();
+    localStorage.removeItem('cart');
+  };
+
+  const getUserDataFromLocalstorage = () => {
+    const localstorageUserData = localStorage.getItem('user') || 'null';
+    const parsedUserData = JSON.parse(localstorageUserData);
+    console.log(parsedUserData);
+    if (parsedUserData) setUser(parsedUserData);
+  };
+
+  useEffect(() => {
     setTimeout(() => {
       setShowOrderPlacedMessage(false);
     }, 2500);
@@ -41,20 +62,13 @@ function App() {
     }, 2500);
   }, [showAddedMessage]);
 
-  const createOrder = () => {
-    user && setOrder && setOrder({ user: user?.id, products: [] });
-  };
+  useEffect(() => {
+    getUserDataFromLocalstorage();
+  }, []);
 
-  const placeOrder = async () => {
-    emptyCart();
-    const response = await axios.post(`${import.meta.env.VITE_API_URL}/orders/add`, order);
-  };
-
-  const emptyCart = () => {
-    createOrder();
-  };
-
-  useEffect(() => {}, []);
+  useEffect(() => {
+    console.log(order);
+  }, [order]);
 
   return (
     <div className="App">
@@ -64,7 +78,10 @@ function App() {
           {showAddedMessage && <div className="added-message">Item added</div>}
           <Header placeOrder={placeOrder} emptyCart={emptyCart} showPlacedMessage={showPlacedMessage} />
           <Routes>
-            <Route path="/" element={!user || !user.loggedIn ? <Login /> : <Products createOrder={createOrder} toggleAddedMessage={toggleAddedMessage}/>} />
+            <Route
+              path="/"
+              element={!user || !user.loggedIn ? <Login /> : <Products createOrder={createOrder} toggleAddedMessage={toggleAddedMessage} />}
+            />
             <Route path="signup" element={<SignUp />} />
             <Route path="orders" element={user && user.loggedIn ? <ListOrders /> : <Login />} />
           </Routes>
