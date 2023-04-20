@@ -10,7 +10,9 @@ import Header from './components/Header';
 import CartContext from './context/CartContext';
 import Order from './models/Order';
 import ListOrders from './components/ListOrders';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
+import ServerResponse from './models/ServerResponse';
+import { Product } from './models/Product';
 
 // TODO: Lägg funktionen som hämtar carten från local storage i Products-komponenten.
 
@@ -19,6 +21,16 @@ function App() {
   const [order, setOrder] = useState<Order | null>(null);
   const [showOrderPlacedMessage, setShowOrderPlacedMessage] = useState(false);
   const [showAddedMessage, setShowAddedMessage] = useState(false);
+  const [products, setProducts] = useState<Product[] | null>(null);
+
+  const fetchAllProducts = async () => {
+    try {
+      const { data }: AxiosResponse<ServerResponse> = await axios.get(`${import.meta.env.VITE_API_URL}/products`);
+      setProducts(data.body as Product[]);
+    } catch (err: any) {
+      console.log(err.response.data);
+    }
+  };
 
   const showPlacedMessage = () => {
     setShowOrderPlacedMessage(true);
@@ -34,7 +46,7 @@ function App() {
 
   const placeOrder = async () => {
     emptyCart();
-    const response = await axios.post(`${import.meta.env.VITE_API_URL}/orders/add`, order);
+    await axios.post(`${import.meta.env.VITE_API_URL}/orders/add`, order);
     localStorage.removeItem('cart');
   };
 
@@ -70,17 +82,33 @@ function App() {
     console.log(order);
   }, [order]);
 
+  useEffect(() => {
+    console.log(products);
+  }, [products]);
+
   return (
     <div className="App">
       <CartContext.Provider value={{ order, setOrder }}>
         <UserContext.Provider value={{ user, setUser }}>
           {showOrderPlacedMessage && <div className="added-message">Order placed</div>}
           {showAddedMessage && <div className="added-message">Item added</div>}
-          <Header placeOrder={placeOrder} emptyCart={emptyCart} showPlacedMessage={showPlacedMessage} />
+          <Header placeOrder={placeOrder} emptyCart={emptyCart} showPlacedMessage={showPlacedMessage} fetchAllProducts={fetchAllProducts} />
           <Routes>
             <Route
               path="/"
-              element={!user || !user.loggedIn ? <Login /> : <Products createOrder={createOrder} toggleAddedMessage={toggleAddedMessage} />}
+              element={
+                !user || !user.loggedIn ? (
+                  <Login />
+                ) : (
+                  <Products
+                    createOrder={createOrder}
+                    toggleAddedMessage={toggleAddedMessage}
+                    products={products}
+                    setProducts={setProducts}
+                    fetchAllProducts={fetchAllProducts}
+                  />
+                )
+              }
             />
             <Route path="signup" element={<SignUp />} />
             <Route path="orders" element={user && user.loggedIn ? <ListOrders /> : <Login />} />

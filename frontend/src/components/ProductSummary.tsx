@@ -17,6 +17,7 @@ const ProductSummary = ({ product, imgSrc, imgAlt, setSelectedProduct, addToOrde
         <img src={imgSrc} alt={imgAlt} />
         <h2>{product.name}</h2>
         <p>{product.price} kr</p>
+        <p>In stock: {product.lager}</p>
       </div>
     </div>
   );

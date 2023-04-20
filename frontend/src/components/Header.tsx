@@ -8,12 +8,12 @@ interface IHeaderProps {
   placeOrder: () => void;
   emptyCart: () => void;
   showPlacedMessage: () => void;
+  fetchAllProducts: () => void;
 }
 
-const Header = ({ placeOrder, emptyCart, showPlacedMessage }: IHeaderProps) => {
+const Header = ({ placeOrder, emptyCart, showPlacedMessage, fetchAllProducts }: IHeaderProps) => {
   const { order } = useContext(CartContext);
   const { user, setUser } = useContext(UserContext);
-  
 
   const updateCartCount = () => {
     let count = 0;
@@ -23,7 +23,6 @@ const Header = ({ placeOrder, emptyCart, showPlacedMessage }: IHeaderProps) => {
         count += product.quantity;
       }
     }
-    // setCartItemsCounter(count)
     return count;
   };
 
@@ -40,11 +39,6 @@ const Header = ({ placeOrder, emptyCart, showPlacedMessage }: IHeaderProps) => {
     setCartItemsCounter(updateCartCount());
   }, [order?.products.length]);
 
-  // useEffect(()=>{
-  //     updateCartCount()
-  //     console.log(order);
-  // }, [order])
-
   if (user && user.loggedIn) {
     return (
       <header>
@@ -56,9 +50,10 @@ const Header = ({ placeOrder, emptyCart, showPlacedMessage }: IHeaderProps) => {
         {order?.products && order?.products.length > 0 && (
           <div className="order-btns">
             <button
-              onClick={() => {
-                placeOrder();
+              onClick={async () => {
+                await placeOrder();
                 showPlacedMessage();
+                fetchAllProducts();
               }}
             >
               Place order

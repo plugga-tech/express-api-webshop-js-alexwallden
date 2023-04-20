@@ -9,15 +9,24 @@ const UserModel = require('../models/UserModel');
 
 router.post('/add', async (req, res) => {
   const order = req.body;
-  console.log(order);
+  console.log('orderBLBLBLBA: ', order);
   const foundUser = await UserModel.findById(order.user);
   console.log(foundUser);
   if (foundUser) {
+    for (let index = 0; index < order.products.length; index++) {
+      const { productId, quantity } = order.products[index];
+      const decreasedAmountResponse = await ProductModel.findByIdAndUpdate(
+        productId,
+        { $inc: { lager: -quantity } }
+      );
+      console.log('!!!!!', decreasedAmountResponse);
+    }
+
     const createdOrder = await OrderModel.create(order);
     console.log(createdOrder);
     res.status(201).json(new Response(true, 'Order created', createdOrder));
   } else {
-    res.status(404).json(new Response(false, 'No matching user in database'))
+    res.status(404).json(new Response(false, 'No matching user in database'));
   }
 });
 

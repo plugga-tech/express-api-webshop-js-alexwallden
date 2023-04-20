@@ -12,23 +12,18 @@ import '../style/_products.scss';
 interface IProductsProps {
   createOrder: () => void;
   toggleAddedMessage: () => void;
+  products: Product[] | null;
+  setProducts: React.Dispatch<React.SetStateAction<Product[] | null>>;
+  fetchAllProducts: () => void;
 }
 
-const Products = ({ createOrder, toggleAddedMessage }: IProductsProps) => {
+const Products = ({ createOrder, toggleAddedMessage, products, setProducts, fetchAllProducts }: IProductsProps) => {
   const { order, setOrder } = useContext(CartContext);
   const { user } = useContext(UserContext);
-  const [products, setProducts] = useState<Product[] | null>(null);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [categories, setCategories] = useState<Category[]>([]);
 
-  const fetchAllProducts = async () => {
-    try {
-      const { data }: AxiosResponse<ServerResponse> = await axios.get(`${import.meta.env.VITE_API_URL}/products`);
-      setProducts(data.body as Product[]);
-    } catch (err: any) {
-      console.log(err.response.data);
-    }
-  };
+  
 
   const getCartDataFromLocalstorage = () => {
     const localstorageCartData = localStorage.getItem('cart') || 'null';
